@@ -1,31 +1,28 @@
 import os
 from flask import Flask
-from flask.cli import load_dotenv
+from flask_cors import CORS
+from flask_sqlalchemy import SQLAlchemy
 from flask_jwt_extended import JWTManager
-from app.config.database import db, init_db
+from app.config.config import Config
+from app.controllers.patient_controller import patient_bp
+from app.controllers.psychologist_controller import psychologist_bp
+from app.controllers.authenticate_controller import auth_bp
+from app.config.database import db
 
-app = Flask(__name__)
+def create_app():
+    app = Flask(__name__)
+    CORS(app, resources={r"/*": {"origins": "*"}})
+    app.config.from_object(Config)
+    
+    db.init_app(app)
+    JWTManager(app)
 
-load_dotenv()
+    app.register_blueprint(psychologist_bp)
+    app.register_blueprint(patient_bp)
+    app.register_blueprint(auth_bp)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['JWT_SECRET_KEY'] = os.getenv('JWT_SECRET_KEY')
-
-# Inicializar o banco de dados com o app
-db.init_app(app)
-
-# Inicializar JWT
-jwt = JWTManager(app)
-
-# Criar as tabelas no banco de dados
-with app.app_context():
-    init_db(app)  # Cria as tabelas no banco de dados
-
-from app.controllers import authenticate_controller
-from app.controllers import psychologist_controller
-app.register_blueprint(authenticate_controller.bp)
-app.register_blueprint(psychologist_controller.bp)
+    return app
 
 if __name__ == '__main__':
+    app = create_app()
     app.run(debug=True)

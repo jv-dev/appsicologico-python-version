@@ -2,11 +2,11 @@ from flask import Blueprint, request, jsonify
 from app.services.auth_service import AuthService
 from app.exceptions.invalid_credentials_exception import InvalidCredentialsException
 
-bp = Blueprint('auth_routes', __name__, url_prefix='/auth')
+auth_bp = Blueprint('auth_routes', __name__, url_prefix='/auth')
 
 auth_service = AuthService()
 
-@bp.route('/login', methods=['POST'])
+@auth_bp.route('/login', methods=['POST'])
 def login():
     data = request.get_json()
 

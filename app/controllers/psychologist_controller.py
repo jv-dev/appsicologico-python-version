@@ -2,11 +2,11 @@ from flask import Blueprint, request, jsonify
 from app.services.psychologist_service import PsychologistService
 from app.exceptions.conflict_exception import ConflictException
 
-bp = Blueprint('psychologist_routes', __name__, url_prefix='/psicologo')
+psychologist_bp = Blueprint('psychologist_routes', __name__, url_prefix='/psicologo')
 
 psychologist_service = PsychologistService()
 
-@bp.route('/', methods=['POST'])
+@psychologist_bp.route('', methods=['POST'])
 def create_psychologist():
     data = request.get_json()
     try:

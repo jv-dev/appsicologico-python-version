@@ -36,16 +36,11 @@ def delete_patient(id):
 @patient_bp.route('/listar', methods=['GET'])
 @jwt_required()
 def get_all_patients():
+    page = request.args.get("page", default=1, type=int)
+    per_page = request.args.get("per_page", default=10, type=int)
     try:
-        patients = PatientService.get_all_patients()
-        return jsonify([{
-            "id": patient.id,
-            "name": patient.name,
-            "cpf": patient.cpf,
-            "email": patient.email,
-            "birth_date": patient.birth_date.strftime('%Y-%m-%d'),
-            "rg": patient.rg
-        } for patient in patients]), 200
+        data = PatientService.get_all_patients(page, per_page)
+        return jsonify(data), 200
     except Exception as e:
         return jsonify({"msg": str(e)}), 400
 
@@ -54,6 +49,7 @@ def get_all_patients():
 def get_patient_by_id(id):
     try:
         patient = PatientService.get_patient_by_id(id)
+
         return jsonify({
             "id": patient.id,
             "name": patient.name,

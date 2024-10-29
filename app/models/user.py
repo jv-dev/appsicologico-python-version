@@ -1,11 +1,7 @@
-# models/user.py
-
 from sqlalchemy import Column, String, Integer
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import relationship
-from sqlalchemy.ext.declarative import declared_attr
 from werkzeug.security import generate_password_hash, check_password_hash
-from app.config.database import db  # Importa a instância do SQLAlchemy
+from app.config.database import db
 
 Base = declarative_base()
 
@@ -23,7 +19,6 @@ class User(db.Model):
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
 
-    # Funções relacionadas a UserDetails
     def get_username(self):
         return self.email
 

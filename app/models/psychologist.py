@@ -1,7 +1,7 @@
 from sqlalchemy import Column, String, Integer, ForeignKey
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
-from app.config.database import db  # Importa a instância do SQLAlchemy
+from app.config.database import db
 
 Base = declarative_base()
 

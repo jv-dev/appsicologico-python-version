@@ -1,3 +1,4 @@
+from sqlalchemy import Column, String
 from app.config.database import db
 
 class Patient(db.Model):

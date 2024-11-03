@@ -19,11 +19,16 @@ class PatientService:
         existing_patient_rg = PatientRepository.get_by_rg(data['rg'])
 
         existing_patient = True if existing_patient_cpf or existing_patient_rg else False
+        patient_id = None
+        if existing_patient_cpf:
+           patient_id = existing_patient_cpf.id
+        elif existing_patient_rg:
+           patient_id = existing_patient_rg.id
         
         psychologist_id = get_jwt_identity()
 
         if existing_patient:
-            PatientPsychologistRepository.create_relationship(existing_patient.id, psychologist_id)
+            PatientPsychologistRepository.create_relationship(patient_id, psychologist_id)
         else:
             new_patient = PatientRepository.create(data)
             PatientPsychologistRepository.create_relationship(new_patient.id, psychologist_id)

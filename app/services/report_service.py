@@ -26,7 +26,7 @@ class ReportService:
         formatted_cpf = ReportService.format_cpf(cpf)
 
         data_dict = {
-            'date': datetime.now().strftime('%d/%m/%Y'),
+            'emission_date': datetime.now().strftime('%d/%m/%Y'),
             'psychologist_data': psychologist_data,
             'psychologist_email': psychologist.user.email,
             'patient_data': patient_data,
@@ -34,6 +34,34 @@ class ReportService:
         }
 
         html = render_template('medical_leave.html', **data_dict)
+        pdf = BytesIO()
+        pisa.CreatePDF(html, dest=pdf)
+
+        pdf.seek(0)
+        return pdf
+    
+    @staticmethod
+    def create_psychological_declaration(data):
+        patient_id = data.get('patient_id')
+        psychologist_id = data.get('psychologist_id')
+
+        patient = PatientRepository.get_by_id(patient_id)
+        psychologist = PsychologistRepository.get_by_id(psychologist_id)
+
+        psychologist_data = f'{psychologist.user.name}. CRP: {psychologist.crp}'
+        patient_data = patient.name
+        cpf = ''.join(filter(str.isdigit, patient.cpf))
+        formatted_cpf = ReportService.format_cpf(cpf)
+
+        data_dict = {
+            'emission_date': datetime.now().strftime('%d/%m/%Y'),
+            'psychologist_data': psychologist_data,
+            'psychologist_email': psychologist.user.email,
+            'patient_data': patient_data,
+            'patient_document': formatted_cpf
+        }
+
+        html = render_template('psychological_declaration.html', **data_dict)
         pdf = BytesIO()
         pisa.CreatePDF(html, dest=pdf)
 

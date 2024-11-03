@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Declaração Psicológica</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        .content {
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        .highlight {
+            font-weight: bold;
+        }
+        .signature-section {
+            margin-top: 40px;
+            text-align: center;
+        }
+        .signature-section .line {
+            margin-top: 30px;
+            border-top: 1px solid #333;
+            padding-top: 5px;
+            width: 80%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>DECLARAÇÃO PSICOLÓGICA</h1>
+    </div>
+
+    <div class="content">
+        <p>
+          <strong>{{psychologist_data}}</strong><br>
+          <strong>Email: </strong>{{psychologist_email}}<br>
+        </p>
+
+        <h2>Declaração</h2>
+        <p>Declaro que <span class="highlight">{{patient_data}}</span>, portador(a) do RG/CPF: <span class="highlight">{{patient_document}}</span> esteve presente nesta data para sessão semanal de psicoterapia.</p>
+
+        <p>Esta declaração destina-se a comprovação de acompanhamento psicológico.</p>
+
+        <p><span class="highlight">Local e Data:</span><br>
+          Praia Grande, {{emission_date}}</p>
+    </div>
+
+    <div class="signature-section">
+        <div class="line">{{psychologist_data}}</div>
+    </div>
+
+</body>
+</html>

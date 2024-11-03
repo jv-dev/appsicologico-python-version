@@ -6,6 +6,7 @@ from app.controllers.patient_controller import patient_bp
 from app.controllers.psychologist_controller import psychologist_bp
 from app.controllers.authenticate_controller import auth_bp
 from app.controllers.report_controller import report_bp
+from app.controllers.patient_report_controller import patient_report_bp
 from app.config.database import db
 
 def create_app():
@@ -20,6 +21,7 @@ def create_app():
     app.register_blueprint(psychologist_bp)
     app.register_blueprint(patient_bp)
     app.register_blueprint(auth_bp)
+    app.register_blueprint(patient_report_bp)
 
     return app
 
